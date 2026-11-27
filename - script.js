@@ -1,5 +1,10 @@
 
 const gameCanvas = document.getElementById("map");
+
+if (!gameCanvas) {
+  throw new Error("Canvas with id 'map' was not found!");
+}
+
 const ctx = gameCanvas.getContext("2d");
 
 const W = 100;
@@ -35,7 +40,10 @@ let gameStarted = false;
 let startedNation = false;
 let aiDifficulty = "medium";
 
-let player = { army: 100, gold: 500 };
+let player = {
+  army: 100,
+  gold: 500
+};
 
 let selectedShipTarget = null;
 let buildingMode = null;
@@ -54,6 +62,24 @@ const lobbyMessage = document.getElementById("lobbyMessage");
 const gameUI = document.getElementById("gameUI");
 const bottomBar = document.getElementById("bottomBar");
 
+function getElement(id) {
+  const el = document.getElementById(id);
+
+  if (!el) {
+    console.error("Missing HTML element:", id);
+  }
+
+  return el;
+}
+
+function connectButton(id, action) {
+  const button = getElement(id);
+
+  if (button) {
+    button.addEventListener("click", action);
+  }
+}
+
 // CANVAS
 
 function resizeCanvas() {
@@ -69,33 +95,51 @@ function resizeCanvas() {
 }
 
 function setMessage(message) {
-  const el = document.getElementById("message");
-  if (el) el.textContent = message;
+  const el = getElement("message");
+
+  if (el) {
+    el.textContent = message;
+  }
 }
 
 // MENU
 
-document.getElementById("singleplayer").onclick = () => {
-  difficultyMenu.style.display = "flex";
-  lobbyMessage.textContent = "";
+connectButton("singleplayer", () => {
+  if (difficultyMenu) {
+    difficultyMenu.style.display = "flex";
+  }
 
-  const heading = lobby.querySelector(".lobby-panel > h2");
-  if (heading) heading.textContent = "SELECT DIFFICULTY";
-};
+  if (lobbyMessage) {
+    lobbyMessage.textContent = "";
+  }
 
-document.getElementById("back").onclick = () => {
-  difficultyMenu.style.display = "none";
+  const heading = lobby?.querySelector(".lobby-panel > h2");
 
-  const heading = lobby.querySelector(".lobby-panel > h2");
-  if (heading) heading.textContent = "MAIN MENU";
-};
+  if (heading) {
+    heading.textContent = "SELECT DIFFICULTY";
+  }
+});
 
-document.getElementById("easy").onclick = () => startGame("easy");
-document.getElementById("medium").onclick = () => startGame("medium");
-document.getElementById("hard").onclick = () => startGame("hard");
+connectButton("back", () => {
+  if (difficultyMenu) {
+    difficultyMenu.style.display = "none";
+  }
 
-document.getElementById("multiplayer").onclick = () => {
-  const button = document.getElementById("multiplayer");
+  const heading = lobby?.querySelector(".lobby-panel > h2");
+
+  if (heading) {
+    heading.textContent = "MAIN MENU";
+  }
+});
+
+connectButton("easy", () => startGame("easy"));
+connectButton("medium", () => startGame("medium"));
+connectButton("hard", () => startGame("hard"));
+
+connectButton("multiplayer", () => {
+  const button = getElement("multiplayer");
+
+  if (!button || !lobbyMessage) return;
 
   button.style.display = "none";
   lobbyMessage.textContent = "COMING SOON...";
@@ -104,15 +148,19 @@ document.getElementById("multiplayer").onclick = () => {
     lobbyMessage.textContent = "";
     button.style.display = "";
   }, 3000);
-};
+});
 
-document.getElementById("settings").onclick = () => {
+connectButton("settings", () => {
+  if (!lobbyMessage) return;
+
   lobbyMessage.textContent = "SETTINGS - COMING SOON...";
 
   setTimeout(() => {
     lobbyMessage.textContent = "";
   }, 3000);
-};
+});
+
+// START GAME
 
 function startGame(difficulty) {
   aiDifficulty = difficulty;
@@ -120,16 +168,18 @@ function startGame(difficulty) {
   gameStarted = true;
   startedNation = false;
 
-  player = { army: 100, gold: 500 };
+  player = {
+    army: 100,
+    gold: 500
+  };
 
   selectedShipTarget = null;
   buildingMode = null;
 
-  lobby.style.display = "none";
-  difficultyMenu.style.display = "none";
-
-  gameUI.style.display = "block";
-  bottomBar.style.display = "flex";
+  if (lobby) lobby.style.display = "none";
+  if (difficultyMenu) difficultyMenu.style.display = "none";
+  if (gameUI) gameUI.style.display = "block";
+  if (bottomBar) bottomBar.style.display = "flex";
 
   generateMap();
   createBots();
@@ -142,8 +192,8 @@ function startGame(difficulty) {
 // STATS
 
 function updateStats() {
-  const armyEl = document.getElementById("army");
-  const goldEl = document.getElementById("gold");
+  const armyEl = getElement("army");
+  const goldEl = getElement("gold");
 
   if (armyEl) armyEl.textContent = player.army;
   if (goldEl) goldEl.textContent = player.gold;
@@ -152,14 +202,23 @@ function updateStats() {
 }
 
 function updateBottomBar() {
-  document.getElementById("bottomGold").textContent = player.gold;
-  document.getElementById("bottomArmy").textContent = player.army;
+  const bottomGold = getElement("bottomGold");
+  const bottomArmy = getElement("bottomArmy");
+  const cityCount = getElement("cityCount");
+  const factoryCount = getElement("factoryCount");
 
-  document.getElementById("cityCount").textContent =
-    cities.filter(c => c.owner === "player").length;
+  if (bottomGold) bottomGold.textContent = player.gold;
+  if (bottomArmy) bottomArmy.textContent = player.army;
 
-  document.getElementById("factoryCount").textContent =
-    factories.filter(f => f.owner === "player").length;
+  if (cityCount) {
+    cityCount.textContent =
+      cities.filter(c => c.owner === "player").length;
+  }
+
+  if (factoryCount) {
+    factoryCount.textContent =
+      factories.filter(f => f.owner === "player").length;
+  }
 }
 
 // HELPERS
@@ -239,7 +298,10 @@ function createBots() {
 
     for (let y = pos[1] - 1; y <= pos[1] + 1; y++) {
       for (let x = pos[0] - 1; x <= pos[0] + 1; x++) {
-        if (valid(x, y) && map[y][x].owner === "neutral") {
+        if (
+          valid(x, y) &&
+          map[y][x].owner === "neutral"
+        ) {
           map[y][x].owner = bot.color;
         }
       }
@@ -255,10 +317,21 @@ function draw() {
       const tile = map[y][x];
 
       ctx.fillStyle = colors[tile.owner] || tile.owner;
-      ctx.fillRect(x * SIZE, y * SIZE, SIZE, SIZE);
+
+      ctx.fillRect(
+        x * SIZE,
+        y * SIZE,
+        SIZE,
+        SIZE
+      );
 
       ctx.strokeStyle = "rgba(0,0,0,0.12)";
-      ctx.strokeRect(x * SIZE, y * SIZE, SIZE, SIZE);
+      ctx.strokeRect(
+        x * SIZE,
+        y * SIZE,
+        SIZE,
+        SIZE
+      );
 
       if (tile.city) drawCity(x, y);
       if (tile.factory) drawFactory(x, y);
@@ -267,10 +340,20 @@ function draw() {
 
   ships.forEach(ship => {
     ctx.fillStyle = "#e9f5ff";
-    ctx.fillRect(ship.x * SIZE + 2, ship.y * SIZE + 2, 6, 6);
+    ctx.fillRect(
+      ship.x * SIZE + 2,
+      ship.y * SIZE + 2,
+      6,
+      6
+    );
 
     ctx.fillStyle = "#24394d";
-    ctx.fillRect(ship.x * SIZE + 3, ship.y * SIZE + 4, 4, 2);
+    ctx.fillRect(
+      ship.x * SIZE + 3,
+      ship.y * SIZE + 4,
+      4,
+      2
+    );
   });
 
   if (selectedShipTarget) {
@@ -354,15 +437,26 @@ function redrawZoom() {
   const dpr = window.devicePixelRatio || 1;
 
   ctx.setTransform(1, 0, 0, 1, 0, 0);
-  ctx.clearRect(0, 0, gameCanvas.width, gameCanvas.height);
 
-  ctx.setTransform(
-    dpr * zoom, 0,
-    0, dpr * zoom,
-    dpr * offsetX, dpr * offsetY
+  ctx.clearRect(
+    0,
+    0,
+    gameCanvas.width,
+    gameCanvas.height
   );
 
-  if (gameStarted && map.length) draw();
+  ctx.setTransform(
+    dpr * zoom,
+    0,
+    0,
+    dpr * zoom,
+    dpr * offsetX,
+    dpr * offsetY
+  );
+
+  if (gameStarted && map.length) {
+    draw();
+  }
 
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 }
@@ -683,7 +777,9 @@ function botExpand(bot) {
 
   if (!candidates.length) return;
 
-  const target = candidates[Math.floor(Math.random() * candidates.length)];
+  const target = candidates[
+    Math.floor(Math.random() * candidates.length)
+  ];
 
   map[target.y][target.x].owner = bot.color;
   bot.army = Math.max(0, bot.army - 2);
@@ -710,7 +806,9 @@ function botBuild(bot, type) {
 
   if (!spots.length) return;
 
-  const spot = spots[Math.floor(Math.random() * spots.length)];
+  const spot = spots[
+    Math.floor(Math.random() * spots.length)
+  ];
 
   if (type === "city") {
     map[spot.y][spot.x].city = true;
@@ -746,7 +844,9 @@ function botAttack(bot) {
 
   if (!targets.length) return;
 
-  const target = targets[Math.floor(Math.random() * targets.length)];
+  const target = targets[
+    Math.floor(Math.random() * targets.length)
+  ];
 
   map[target.y][target.x].owner = bot.color;
   bot.army -= 20;
@@ -821,11 +921,6 @@ setInterval(() => {
 setInterval(aiTurn, 3000);
 
 // BUTTONS
-
-function connectButton(id, action) {
-  const button = document.getElementById(id);
-  if (button) button.onclick = action;
-}
 
 connectButton("expand", expandRandom);
 connectButton("attackAll", attackAllBots);
@@ -982,10 +1077,11 @@ window.addEventListener("resize", () => {
 
 resizeCanvas();
 
-lobby.style.display = "flex";
-difficultyMenu.style.display = "none";
-
-gameUI.style.display = "none";
-bottomBar.style.display = "none";
+if (lobby) lobby.style.display = "flex";
+if (difficultyMenu) difficultyMenu.style.display = "none";
+if (gameUI) gameUI.style.display = "none";
+if (bottomBar) bottomBar.style.display = "none";
 
 updateStats();
+
+console.log("WORLD CONQUEST SCRIPT LOADED SUCCESSFULLY");
