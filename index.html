@@ -1,69 +1,84 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WORLD CONQUEST</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+
 <div id="lobby" class="lobby">
-  <div class="lobby-panel">
-    <div class="game-logo">🌍</div>
-    <h1>WORLD CONQUEST</h1>
-    <p class="subtitle">BUILD YOUR EMPIRE • CONQUER THE WORLD</p>
+    <div class="lobby-panel">
+        <div class="game-logo">🌍</div>
+        <h1>WORLD CONQUEST</h1>
+        <p class="subtitle">BUILD YOUR EMPIRE • CONQUER THE WORLD</p>
 
-    <h2>MAIN MENU</h2>
+        <h2>MAIN MENU</h2>
 
-    <div class="menu-buttons">
-      <button id="singleplayer">SINGLEPLAYER</button>
-      <button id="multiplayer">MULTIPLAYER</button>
-      <button id="settings">SETTINGS</button>
+        <div class="menu-buttons">
+            <button id="singleplayer">SINGLEPLAYER</button>
+            <button id="multiplayer">MULTIPLAYER</button>
+            <button id="settings">SETTINGS</button>
+        </div>
+
+        <div id="difficultyMenu">
+            <h2>SELECT DIFFICULTY</h2>
+            <button id="easy">EASY</button>
+            <button id="medium">MEDIUM</button>
+            <button id="hard">HARD</button>
+            <button id="back">BACK</button>
+        </div>
+
+        <p id="lobbyMessage"></p>
     </div>
-
-    <div id="difficultyMenu">
-      <h2>SELECT DIFFICULTY</h2>
-      <button id="easy">EASY</button>
-      <button id="medium">MEDIUM</button>
-      <button id="hard">HARD</button>
-      <button id="back">BACK</button>
-    </div>
-
-    <p id="lobbyMessage"></p>
-  </div>
 </div>
 
 <canvas id="map"></canvas>
 
 <div id="gameUI">
-  <div class="top-panel">
-    <div>⚔️ Army: <b id="army">100</b></div>
-    <div>💰 Gold: <b id="gold">500</b></div>
-  </div>
+    <div class="top-panel">
+        <div>⚔️ Army: <b id="army">100</b></div>
+        <div>💰 Gold: <b id="gold">500</b></div>
+    </div>
 
-  <div id="message">Choose your starting land!</div>
+    <div id="message">Choose your starting land!</div>
 
-  <div class="game-buttons">
-    <button id="expand">EXPAND</button>
-    <button id="attackAll">ATTACK ALL</button>
-    <button id="recruit">RECRUIT</button>
-  </div>
+    <div class="game-buttons">
+        <button id="expand">EXPAND</button>
+        <button id="attackAll">ATTACK ALL</button>
+        <button id="recruit">RECRUIT</button>
+    </div>
 </div>
 
 <div id="bottomBar">
-  <button id="buildCity">
-    🏙️ CITY <span>1</span>
-  </button>
+    <button id="buildCity">
+        🏙️ CITY <span>1</span>
+    </button>
 
-  <button id="buildFactory">
-    🏭 FACTORY <span>2</span>
-  </button>
+    <button id="buildFactory">
+        🏭 FACTORY <span>2</span>
+    </button>
 
-  <div class="resource">
-    💰 GOLD: <b id="bottomGold">500</b>
-  </div>
+    <div class="resource">
+        💰 GOLD: <b id="bottomGold">500</b>
+    </div>
 
-  <div class="resource">
-    ⚔️ ARMY: <b id="bottomArmy">100</b>
-  </div>
+    <div class="resource">
+        ⚔️ ARMY: <b id="bottomArmy">100</b>
+    </div>
 
-  <div class="resource">
-    🏙️ CITIES: <b id="cityCount">0</b>
-  </div>
+    <div class="resource">
+        🏙️ CITIES: <b id="cityCount">0</b>
+    </div>
 
-  <div class="resource">
-    🏭 FACTORIES: <b id="factoryCount">0</b>
-  </div>
+    <div class="resource">
+        🏭 FACTORIES: <b id="factoryCount">0</b>
+    </div>
 </div>
+
+<script src="./script.js" defer></script>
+
+</body>
+</html>
