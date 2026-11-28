@@ -1,98 +1,113 @@
 
-<div id="lobby" class="lobby">
-  <div class="lobby-panel">
-    <div class="game-logo">🌍</div>
-    <h1>WORLD CONQUEST</h1>
-    <p class="subtitle">BUILD YOUR EMPIRE • CONQUER THE WORLD</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WORLD CONQUEST</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-    <div id="mainMenuView">
-      <h2>MAIN MENU</h2>
-      <div class="menu-buttons">
-        <button id="singleplayer">SINGLEPLAYER</button>
-        <button id="multiplayer">MULTIPLAYER</button>
-        <button id="settings">SETTINGS</button>
-      </div>
-    </div>
+  <div id="lobby" class="lobby">
+    <div class="lobby-panel">
+      <div class="game-logo">🌍</div>
+      <h1>WORLD CONQUEST</h1>
+      <p class="subtitle">BUILD YOUR EMPIRE • CONQUER THE WORLD</p>
 
-    <div id="difficultyMenu">
-      <h2>SELECT DIFFICULTY</h2>
-      <button id="easy">EASY</button>
-      <button id="medium">MEDIUM</button>
-      <button id="hard">HARD</button>
-      <button id="back">BACK</button>
-    </div>
-
-    <div id="multiplayerMenu" style="display:none">
-      <h2>SELECT MAP</h2>
-
-      <div class="map-options">
-        <button class="map-card selected" data-map="world">
-          🌍<br>WORLD
-        </button>
-        <button class="map-card" data-map="continents">
-          🗺️<br>CONTINENTS
-        </button>
-        <button class="map-card" data-map="islands">
-          🏝️<br>ISLANDS
-        </button>
+      <div id="mainMenuView">
+        <h2>MAIN MENU</h2>
+        <div class="menu-buttons">
+          <button id="singleplayer">SINGLEPLAYER</button>
+          <button id="multiplayer">MULTIPLAYER</button>
+          <button id="settings">SETTINGS</button>
+        </div>
       </div>
 
-      <button id="createRoom">CREATE ROOM</button>
-
-      <h2>JOIN ROOM</h2>
-      <input id="roomCodeInput" maxlength="6" placeholder="ENTER ROOM CODE">
-      <button id="joinRoom">JOIN ROOM</button>
-      <button id="multiBack">BACK</button>
-    </div>
-
-    <div id="roomLobby" style="display:none">
-      <h2>ROOM LOBBY</h2>
-      <p>ROOM CODE</p>
-      <div id="roomCodeDisplay">------</div>
-      <p id="selectedMapText">MAP: WORLD</p>
-      <h3>PLAYERS</h3>
-      <div id="roomPlayers"></div>
-      <button id="readyButton">READY</button>
-      <button id="startRoom">START GAME</button>
-      <button id="leaveRoom">LEAVE ROOM</button>
-    </div>
-
-    <div id="playerNameBox">
-      <label>PLAYER NAME</label>
-      <div class="name-row">
-        <input id="playerNameInput" type="text" maxlength="18" placeholder="Enter your name">
-        <button id="savePlayerName">SAVE</button>
+      <div id="difficultyMenu">
+        <h2>SELECT DIFFICULTY</h2>
+        <button id="easy">EASY</button>
+        <button id="medium">MEDIUM</button>
+        <button id="hard">HARD</button>
+        <button id="back">BACK</button>
       </div>
+
+      <div id="multiplayerMenu" style="display:none">
+        <h2>SELECT MAP</h2>
+        <div class="map-options">
+          <button class="map-card selected" data-map="world">
+            🌍<br>WORLD
+          </button>
+          <button class="map-card" data-map="continents">
+            🗺️<br>CONTINENTS
+          </button>
+          <button class="map-card" data-map="islands">
+            🏝️<br>ISLANDS
+          </button>
+        </div>
+
+        <button id="createRoom">CREATE ROOM</button>
+        <h2>JOIN ROOM</h2>
+        <input id="roomCodeInput" maxlength="6" placeholder="ENTER ROOM CODE">
+        <button id="joinRoom">JOIN ROOM</button>
+        <button id="multiBack">BACK</button>
+      </div>
+
+      <div id="roomLobby" style="display:none">
+        <h2>ROOM LOBBY</h2>
+        <p>ROOM CODE</p>
+        <div id="roomCodeDisplay">------</div>
+        <p id="selectedMapText">MAP: WORLD</p>
+        <h3>PLAYERS</h3>
+        <div id="roomPlayers"></div>
+        <button id="readyButton">READY</button>
+        <button id="startRoom">START GAME</button>
+        <button id="leaveRoom">LEAVE ROOM</button>
+      </div>
+
+      <div id="playerNameBox">
+        <label>PLAYER NAME</label>
+        <div class="name-row">
+          <input id="playerNameInput" type="text" maxlength="18" placeholder="Enter your name">
+          <button id="savePlayerName">SAVE</button>
+        </div>
+      </div>
+
+      <p id="lobbyMessage"></p>
     </div>
-
-    <p id="lobbyMessage"></p>
   </div>
-</div>
 
-<canvas id="map"></canvas>
+  <canvas id="map"></canvas>
 
-<div id="gameUI">
-  <div class="top-panel">
-    <div>⚔️ Army: <b id="army">100</b></div>
-    <div>💰 Gold: <b id="gold">500</b></div>
+  <div id="gameUI">
+    <div class="top-panel">
+      <div>⚔️ Army: <b id="army">100</b></div>
+      <div>💰 Gold: <b id="gold">500</b></div>
+    </div>
+    <div id="message">Choose your starting land!</div>
+    <div class="game-buttons">
+      <button id="expand">EXPAND</button>
+      <button id="attackAll">ATTACK ALL</button>
+      <button id="recruit">RECRUIT</button>
+    </div>
   </div>
-  <div id="message">Choose your starting land!</div>
-  <div class="game-buttons">
-    <button id="expand">EXPAND</button>
-    <button id="attackAll">ATTACK ALL</button>
-    <button id="recruit">RECRUIT</button>
+
+  <div id="bottomBar">
+    <button id="buildCity">🏙️ CITY <span>1</span></button>
+    <button id="buildFactory">🏭 FACTORY <span>2</span></button>
+    <div class="resource">💰 GOLD: <b id="bottomGold">500</b></div>
+    <div class="resource">⚔️ ARMY: <b id="bottomArmy">100</b></div>
+    <div class="resource">🏙️ CITIES: <b id="cityCount">0</b></div>
+    <div class="resource">🏭 FACTORIES: <b id="factoryCount">0</b></div>
   </div>
-</div>
 
-<div id="bottomBar">
-  <button id="buildCity">🏙️ CITY <span>1</span></button>
-  <button id="buildFactory">🏭 FACTORY <span>2</span></button>
-  <div class="resource">💰 GOLD: <b id="bottomGold">500</b></div>
-  <div class="resource">⚔️ ARMY: <b id="bottomArmy">100</b></div>
-  <div class="resource">🏙️ CITIES: <b id="cityCount">0</b></div>
-  <div class="resource">🏭 FACTORIES: <b id="factoryCount">0</b></div>
-</div>
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/13.4.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/13.4.0/firebase-database-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/13.4.0/firebase-auth-compat.js"></script>
 
-<script src="https://www.gstatic.com/firebasejs/13.4.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/13.4.0/firebase-database-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/13.4.0/firebase-auth-compat.js"></script>
+  <!-- Game JavaScript -->
+  <script src="script.js"></script>
+
+</body>
+</html>
